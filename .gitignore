@@ -87,3 +87,12 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+# LaTeX output:
+*-eps-converted-to.pdf
+*.aux
+*.synctex.gz
+
+# vim swap files
+*.swp
