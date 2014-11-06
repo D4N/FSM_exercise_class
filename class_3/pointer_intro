@@ -1,0 +1,114 @@
+[motivation]
+
+- usually variables are accessed using their name
+- accessing variables via their location has sometimes advantages:
+	* return more than one value (-> call by reference)
+	* create 'links' to other objects for logical structures (e.g. trees)
+	* dynamic memory (-> already uploaded tutorial)
+	* function pointers (-> already uploaded tutorial)
+	* Arrays! (they are nothing else than pointers)
+
+
+
+[addresses]
+
+- every variable is stored in memory and has an address
+- address of any object can be accessed using the & operator:
+
+	int number = 10;
+	cout << number << ' ' << & number << endl;
+
+- we can store the address in a pointer:
+	
+	$type * pointer_name = & variable
+
+  where variable has to be of type $type
+
+see: address_demonstration()
+
+
+
+[using pointers]
+
+- access object pointed to by a pointer: use * operator (dereference)
+
+	(* pointer) gives you the value stored in the memory cell with address $pointer
+
+- you can of course reassign pointers to new variables
+
+- correct initialization:
+	type * ptr_name;
+	ptr_name = & target;
+  or
+	type * ptr_name = & target;
+
+  but never!!:
+	type * ptr_name;
+	* ptr_name = & target;
+  why? (it actually fails)
+
+see: dereference_demonstration() and riddle()
+
+
+
+[Arrays]
+
+- arrays are nothing else than pointers!
+- array[n] is equivalent to * (array + n)
+- syntax can be therefore interchanged freely
+- beware
+	array + 1;
+  does not mean that the address number is incremented, instead you jump to the next memory cell for the current type of array!!!
+- use braces with * and arithmetic: *(array + 1) is not generally equal to (*array) + 1
+
+see: arrays_n_pointers()
+
+
+
+[Additional information]
+
+- you can create pointers to pointers (and confuse the hell out of you when searching for bugs)
+- strings are implemented in C as char arrays or char pointers; some legacy functions still use them;
+  better: use std::string (significantly nicer interfaces, less error prone, far easier to handle)
+- you can create pointers without a type: void pointers (useful when you don't know the type or want to allow several types or want to do low level operations or you want to break things)
+- dynamic allocation of memory relies heavily on pointers (-> see class_2/dynamic_memory.cpp)
+- functions can be passed as parameters using pointers (-> see class_2/function_parameters/)
+
+
+
+[Application]
+
+1. let functions return more than 1 value
+
+Imagine the 'useful' function, that returns the square and cube of a number. As you can't return two numbers, you can do the following:
+
+void useful (int number, int * squared, int * cubed) {
+	* squared = number * number;
+	* cubed = (* squared)* number;
+}
+
+and use it as follows:
+int squared = 0, cubed = 0;
+int * ptr1 = & squared;
+int * ptr2 = & cubed;
+
+cout << squared << ' ' << cubed << endl;
+useful (10, ptr1, ptr2);
+cout << squared << ' ' << cubed << endl;
+
+
+You can do it without the pointers using call by reference: you do not pass a pointer, but the address of a variable, where you want your result stored
+
+void useful_new(int number, int & squared, int & cubed) {
+	squared = number*number;
+	cubed = squared*number;
+}
+
+this is a more convenient form, as you do not have to create pointers, !but! it is also dangerous:
+	if you do not take care, one of your parameters can get modified even if you did not expect it to get (therefore pointers can be safer in that way)
+
+
+2. logical structures
+
+see example of a linked list
+
