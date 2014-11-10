@@ -1,0 +1,47 @@
+about:
+
+The script plotter.py shows an animation of the result of the n-body simulation.
+
+
+prerequisites:
+
+Requires Python 2.7, matplotlib, numpy and ffmpeg.
+
+Your n-body integrator has to create an output file which obeys the following formating:
+
+time total_energy object_1_x object_1_y object_1_z object_1_vx object_1_vy object_1_vz object_2_x ...
+
+where each line of the file corresponds to a time step. The values have to be separated using spaces.
+The script will use every time step from the output file and render a frame. Thus if your file contains a huge number of time steps, the animation will be very slow. Therefore reduce the number of output-values accordingly (you can do this afterwards with sed: cat output_file|sed -n '1~100p' > new_output_file; new_output_file will contain only every 100th line of output_file).
+
+
+invocation:
+
+python plotter.py output_file scaling_behavior (rescale_interval) (movie_filename)
+
+Do not invoke it without the python in the beginning (or it will fail).
+
+Parameters:
+output_file - the filename of the output file from your n-body simulation
+
+scaling_behavior - defines how the script chooses the x,y and z scale during the animation; possible values:
+	initially: the x,y,z scale is set at the beginning and set so that all objects are visible at initial time. The range is not adjusted later on.
+	global: the x,y,z scale is set at the beginning and set so that all objects are visible at _all_ times (this might be choose a very large range, if some objects get ejected)
+	repeat: requires the parameter rescale_interval; rescales the x,y,z axis every n seconds (where n is given by rescale_interval), so that all objects are visible during this time interval. Please note that small rescale intervals can create ugly looking animations.
+
+rescale_interval - optional, only expected when scaling_behavior is set to repeat; then it specifies the number of seconds between two rescaling events of the x,y,z axis
+
+movie_filename - optional, if specified, the animation is not shown using the standard matplotlib windows, but instead saved as a movie with the specified file name.
+
+
+examples:
+
+python plotter.py sim_data initially
+	shows the simulation from sim_data in the standard matplotlib window, the x,y,z range is set at the beginning of the animation, so that the objects are visible at the beginning
+
+python plotter.py sim_data global movie.mkv
+	outputs the simulation from sim_data into a mkv movie file called 'movie.mkv'; the range is set at the beginning, so that the objects are visible at all times
+
+python plotter.py sim_data repeat 10 movie.mkv
+	outputs the simulation from sim_data into a mkv movie file called 'movie.mkv'; the range is set every 10 seconds, so that the objects are visible in that interval
+
