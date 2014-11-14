@@ -93,12 +93,19 @@ binary_tree_node * find_value_in_tree(binary_tree_node * root, int value_to_find
 	return nullptr;
 }
 
-
+int calc_nodes(binary_tree_node * root) {
+	if (root == nullptr) { return 0; }
+	return 1 + calc_nodes(root->left) + calc_nodes(root->right);
+}
 
 binary_tree_node * example_tree() {
 	int numbers[7] = {3, 7, 2, 4, 6, 8, 1};
 	binary_tree_node * root = new binary_tree_node;
+	//(*root).node_data
 	root->node_data = 5;
+
+	//binary_tree_node root2 (5);
+	//root2.node_data = 10;
 
 	for (int i=0; i<7; i++) {
 		//std::cout << numbers[i] << std::endl;
@@ -119,6 +126,8 @@ binary_tree_node * example_tree() {
 		}
 
 	}
+
+	std::cout << "number of nodes in the tree: " << calc_nodes(root) << std::endl;
 
 	return root;
 }
