@@ -21,6 +21,13 @@ std::vector<double> create_array_of_random_values(int value_count) {
 	return random_values;
 }
 
+void print_vector(std::vector<double> to_print) {
+	for (double value : to_print) {
+		std::cout << value << " ";
+	}
+	std::cout << std::endl;
+}
+
 
 int main(int argc, char **argv) {
 	if (argc != 2) {
@@ -35,11 +42,7 @@ int main(int argc, char **argv) {
 
 	std::vector<double> random_values = create_array_of_random_values(value_count);
 
-	std::cout << "Original array:" << std::endl;
-	for (double value : random_values) {
-		std::cout << value << " ";
-	}
-	std::cout << std::endl;
+	std::cout << "Original array:" << std::endl; print_vector(random_values);
 
 	return 0;
 }
