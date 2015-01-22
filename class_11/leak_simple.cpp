@@ -60,8 +60,6 @@ double leak_or_no_leak(int count) {
 		result += values[i];
 	}
 
-	delete[] values;
-
 	return result/count;
 }
 
@@ -81,7 +79,7 @@ void mean_sum(int runs) {
 int main() {
 	//simple_leak(10);
 	//bad_memory_free(10);
-	//mean_sum(100);
+	mean_sum(100);
 
 	return 0;
 }
